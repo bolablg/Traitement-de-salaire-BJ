@@ -1,10 +1,15 @@
 # 🇧🇯 Calculette Salaire Bénin 2025 (Brut ↔ Net)
 
+
 [![Déployé sur Google Cloud Functions](https://img.shields.io/badge/Google%20Cloud-Function-blue)](https://console.cloud.google.com/functions)
 
 Cette application permet aux salariés et chercheurs d'emploi au Bénin d’estimer leur **salaire net à partir d’un brut** ou **le salaire brut nécessaire à partir d’un net souhaité**, selon la **loi de finances 2025** du Bénin. Elle applique automatiquement le calcul de l’impôt progressif et de la cotisation sociale, avec un détail transparent de tous les prélèvements.
 
 🔗 Démo en ligne : [https://app.bolablg.com/salaire_benin](https://app.bolablg.com/salaire_benin)
+
+![Aperçu de l'application](./salaire_benin.png)
+
+
 
 ---
 
@@ -100,3 +105,15 @@ Projet développé par **Bolaji** • [bolablg.com](https://bolablg.com)
 ---
 
 N’hésitez pas à proposer des améliorations via *issue* ou *pull request*.
+
+---
+
+## 📜 Licence
+
+Ce projet est distribué sous la licence **GNU General Public License v3.0**.
+
+Vous êtes libre de :
+- Utiliser, copier, modifier et redistribuer le code
+- Tant que vous conservez la même licence (copyleft)
+
+➡️ [Voir la licence complète](https://www.gnu.org/licenses/gpl-3.0.html)
