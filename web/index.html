@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Calcule le salaire net ou brut au Bénin selon la loi de finances 2025 avec une répartition détaillée des cotisations et impôts.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" href="/images/fav.png">
+  <title>Calculette Salaire Bénin 2025</title>
+
+  <!-- Open Graph for social media sharing -->
+  <meta property="og:image" content="/images/app_bolablg.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter card image -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/images/app_bolablg.png">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-light: #e6f0ff;
+      --secondary: #3a0ca3;
+      --text: #2b2d42;
+      --light-bg: #f8f9fa;
+      --white: #ffffff;
+      --success: #2ecc71;
+      --error: #e74c3c;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background-color: var(--light-bg);
+      padding-top: 70px;
+      line-height: 1.6;
+    }
+
+    .content {
+      flex: 1; /* This makes the content expand to push footer down */
+    }
+
+    /* Navbar */
+    .navbar {
+      box-shadow: var(--shadow-sm);
+      background: var(--white) !important;
+      padding: 0.5rem 1rem;
+    }
+
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      padding: 0;
+    }
+
+    .navbar-brand img {
+      height: 32px;
+      transition: var(--transition);
+    }
+
+    .navbar-brand img:hover {
+      transform: scale(1.05);
+    }
+
+    .navbar-toggler {
+      padding: 0.25rem 0.5rem;
+      border: none;
+      margin-left: 10px;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: var(--text) !important;
+      padding: 0.5rem 1rem !important;
+      border-radius: 6px;
+      transition: var(--transition);
+    }
+
+    .nav-link:hover {
+      background: var(--primary-light);
+      color: var(--primary) !important;
+    }
+
+    /* Calculator Container */
+    .calculator-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .calculator-container {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+    }
+
+    button:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Results */
+    .result-card {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .result-title {
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .result-title i {
+      margin-right: 0.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 500;
+      padding: 0.75rem;
+      text-align: left;
+    }
+
+    td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    tr:hover td {
+      background: #f9f9f9;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--white);
+      padding: 2rem 0;
+      text-align: center;
+      position: relative;
+      border-top: 1px solid #eee;
+      margin-top: auto; /* Pushes footer to bottom */
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--light-bg);
+      color: var(--primary);
+      margin: 0 0.5rem;
+      transition: var(--transition);
+    }
+
+    .social-btn:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    /* Responsive Tables */
+    @media (max-width: 600px) {
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+
+    /* Disclaimer */
+    .disclaimer {
+      background: #fff8e1;
+      padding: 1rem;
+      border-radius: 6px;
+      border-left: 4px solid #ffc107;
+      font-size: 0.9rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+      <div class="navbar-container">
+        <div class="d-flex align-items-center">
+          <a class="navbar-brand" href="https://app.bolablg.com/">
+            <img src="/images/logo.png" alt="Logo">
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="https://app.bolablg.com/">Apps</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://blog.bolablg.com" target="_blank">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.bolablg.com" target="_blank">Bolaji</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container my-4">
+    <div class="calculator-container">
+      <h2 class="text-center mb-4">🇧🇯 Convertisseur Salaire Bénin 2025 🇧🇯</h2>
+      
+      <div class="form-group">
+        <label for="mode">Mode de calcul</label>
+        <select id="mode" class="form-control" onchange="onModeChange()">
+          <option value="">-- Sélectionne un mode --</option>
+          <option value="brut">Brut → Net</option>
+          <option value="net">Net → Brut</option>
+        </select>
+      </div>
+
+      <div id="input-container" style="display: none;">
+        <div class="form-group">
+          <label for="montant">Montant (fCFA)</label>
+          <input type="number" id="montant" class="form-control" oninput="checkInput()" placeholder="Entre le montant">
+        </div>
+      </div>
+
+      <button id="valider" class="btn-calculate" onclick="submitForm()" disabled>
+        <i class="fas fa-calculator"></i> Calculer
+      </button>
+
+      <div id="results">
+        <div id="summary" class="result-card fade-in" style="display: none;"></div>
+        <div id="cotisations" class="result-card fade-in" style="display: none;"></div>
+        <div id="impots" class="result-card fade-in" style="display: none;"></div>
+        <div id="totals" class="result-card fade-in" style="display: none;"></div>
+      </div>
+
+      <div class="disclaimer">
+        <p><i class="fas fa-exclamation-triangle"></i> <strong>Disclaimer:</strong> Ce programme s'inspire de la <a href="https://finances.bj/wp-content/uploads/2025/01/Benin-Code-General-des-Impots-2025.pdf" target="_blank">Loi de Finances 2025</a> de la République du Bénin. Il est conçu à titre informatif uniquement et ne remplace pas les décisions des autorités fiscales.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>© 2025 Bolaji BALOGOUN. Projets libres.</p>
+      <div class="social-links mt-3">
+        <a href="mailto:hello@bolablg.com" class="social-btn" title="Mail">
+          <i class="far fa-envelope"></i>
+        </a>
+        <a href="https://github.com/bolablg" target="_blank" class="social-btn" title="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://x.com/bolablg" target="_blank" class="social-btn" title="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://linkedin.com/in/bolablg" target="_blank" class="social-btn" title="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function onModeChange() {
+      const mode = document.getElementById("mode").value;
+      document.getElementById("input-container").style.display = mode ? "block" : "none";
+      document.getElementById("valider").disabled = true;
+      document.getElementById("montant").value = "";
+      clearResults();
+    }
+
+    function checkInput() {
+      const val = document.getElementById("montant").value;
+      document.getElementById("valider").disabled = !(val && parseFloat(val) > 0);
+    }
+
+    function clearResults() {
+      document.getElementById("summary").style.display = "none";
+      document.getElementById("cotisations").style.display = "none";
+      document.getElementById("impots").style.display = "none";
+      document.getElementById("totals").style.display = "none";
+    }
+
+    function showResult(id) {
+      const element = document.getElementById(id);
+      element.style.display = "block";
+      element.classList.add("fade-in");
+    }
+
+    async function submitForm() {
+      clearResults();
+      const mode = document.getElementById("mode").value;
+      const montant = parseFloat(document.getElementById("montant").value);
+      const data = mode === "brut" ? { brut: montant } : { net: montant };
+
+      // Show loading state
+      const button = document.getElementById("valider");
+      button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Calcul en cours...';
+      button.disabled = true;
+
+      try {
+        const res = await fetch("//api_url", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const json = await res.json();
+
+        if (json.error) {
+          document.getElementById("summary").innerHTML = `
+            <div class="alert alert-danger">
+              <i class="fas fa-exclamation-circle"></i> ${json.error}
+            </div>
+          `;
+          showResult("summary");
+          return;
+        }
+
+        if (json.stop) {
+          document.getElementById("summary").innerHTML = `
+            <div class="alert alert-warning">
+              <i class="fas fa-info-circle"></i> ${json.stop}
+            </div>
+          `;
+          showResult("summary");
+          return;
+        }
+
+        const brut = json.salaire_brut || json.salaire_brut_requis;
+        const net = json.salaire_net || json.salaire_net_desire;
+
+        document.getElementById("summary").innerHTML = `
+          <div class="result-title">
+            <i class="fas fa-file-invoice-dollar"></i> Résumé
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Salaire brut:</span>
+            <strong>${brut.toLocaleString()} fCFA</strong>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Salaire net:</span>
+            <strong>${net.toLocaleString()} fCFA</strong>
+          </div>
+        `;
+        showResult("summary");
+
+        let cotRows = json.details_cotisations.map(c => `
+          <tr>
+            <td>${c.libelle}</td>
+            <td>${c.taux}</td>
+            <td class="text-right">${c.montant.toLocaleString()} fCFA</td>
+          </tr>
+        `).join("");
+        document.getElementById("cotisations").innerHTML = `
+          <div class="result-title">
+            <i class="fas fa-receipt"></i> Détail des cotisations
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Libellé</th>
+                <th>Taux</th>
+                <th class="text-right">Montant</th>
+              </tr>
+            </thead>
+            <tbody>${cotRows}</tbody>
+          </table>
+        `;
+        showResult("cotisations");
+
+        let impRows = json.details_impot.map(i => `
+          <tr>
+            <td>${i.tranche}</td>
+            <td>${i.taux}</td>
+            <td class="text-right">${i.montant_imposable.toLocaleString()} fCFA</td>
+            <td class="text-right">${i.impot.toLocaleString()} fCFA</td>
+          </tr>
+        `).join("");
+        document.getElementById("impots").innerHTML = `
+          <div class="result-title">
+            <i class="fas fa-landmark"></i> Détail des impôts par tranche
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Tranche</th>
+                <th>Taux</th>
+                <th class="text-right">Montant imposable</th>
+                <th class="text-right">Impôt</th>
+              </tr>
+            </thead>
+            <tbody>${impRows}</tbody>
+          </table>
+        `;
+        showResult("impots");
+
+        document.getElementById("totals").innerHTML = `
+          <div class="result-title">
+            <i class="fas fa-calculator"></i> Totaux
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Total cotisations:</span>
+            <strong>${json.total_cotisations.toLocaleString()} fCFA</strong>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Total impôt:</span>
+            <strong>${json.total_impot.toLocaleString()} fCFA</strong>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span>Total prélèvements:</span>
+            <strong>${json.total_prelevements.toLocaleString()} fCFA</strong>
+          </div>
+        `;
+        showResult("totals");
+
+      } catch (e) {
+        document.getElementById("summary").innerHTML = `
+          <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle"></i> Erreur lors de la requête: ${e.message}
+          </div>
+        `;
+        showResult("summary");
+      } finally {
+        button.innerHTML = '<i class="fas fa-calculator"></i> Calculer';
+        button.disabled = false;
+      }
+    }
+  </script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
