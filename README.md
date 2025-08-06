@@ -33,9 +33,9 @@ benin-salaire-api/
 │   ├── main.py
 │   ├── requirements.txt
 │   └── intelytix-sa.json # la clé json de votre service account pour sauvegarder les logs dans un google sheets
-├── notebook/             # Scripts de test locaux (simulateur brut ↔ net)
-│   ├── simulateur.ipynb
-│   └── simulateur.py
+├── notebooks/             # Scripts de test locaux (simulateur brut ↔ net)
+│   ├── traitement_its_benin.ipynb
+│   └── traitement_its_benin.py
 ├── web/                  # Interface HTML connectée à l’API
 │   └── index.html        # Interface html déployé sur LWS
 └── README.md
@@ -68,13 +68,13 @@ Et d’avoir un fichier `credentials.json` pour accéder au Google Sheet des log
 
 ## 🧪 Tests en local
 
-Les calculs peuvent être simulés localement **sans déploiement**, à l’aide des fichiers dans le dossier `notebook/`. Ils permettent d’explorer différents scénarios de salaire et d'affiner la logique de calcul.
+Les calculs peuvent être simulés localement **sans déploiement**, à l’aide des fichiers dans le dossier `notebooks/`. Ils permettent d’explorer différents scénarios de salaire et d'affiner la logique de calcul.
 
 Exécuter localement :
 
 ```bash
-cd notebook/
-jupyter notebook simulateur.ipynb
+cd notebooks/
+jupyter notebook traitement_its_benin.ipynb
 ```
 
 ---
