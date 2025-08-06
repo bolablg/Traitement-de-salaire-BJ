@@ -155,7 +155,7 @@ def main(request):
             if montant > 15000000:
                 log_to_sheet(ip, "brut", montant, "rejet", "montant trop élevé")
                 response = make_response(jsonify({
-                    "stop": f"\nPardon! Montant brut de {int(montant):.} fCFA tu dis? Donc de toutes les manières plus de 10.038.500 fCFA net? Même pour un salaire de debout-suspendu, tu veux utiliser le petit programme des débrouillard(e)s? Mouff! Quitte ici... 😅😂"
+                    "stop": f"\nPardon! Montant brut de {int(montant):,} fCFA tu dis? Donc de toutes les manières plus de 10.038.500 fCFA net? Même pour un salaire de debout-suspendu, tu veux utiliser le petit programme des débrouillard(e)s? Mouff! Quitte ici... 😅😂"
                 }), 400)
                 response.headers.add("Access-Control-Allow-Origin", "*")
                 response.headers.add("Access-Control-Allow-Headers", "Content-Type")
@@ -173,7 +173,7 @@ def main(request):
             if montant > 10038500:
                 log_to_sheet(ip, "net", montant, "rejet", "montant trop élevé")
                 response = make_response(jsonify({
-                    "stop": f"\nPardon! Tu veux {int(montant):.} fCFA en net tu dis? Donc de toutes les manières plus de 15 millions fCFA brut? Même pour un salaire de debout-suspendu, tu veux utiliser le petit programme des débrouillard(e)s? Mouff! Quitte ici... 😅😂"
+                    "stop": f"\nPardon! Tu veux {int(montant):,} fCFA en net tu dis? Donc de toutes les manières plus de 15 millions fCFA brut? Même pour un salaire de debout-suspendu, tu veux utiliser le petit programme des débrouillard(e)s? Mouff! Quitte ici... 😅😂"
                 }), 400)
                 response.headers.add("Access-Control-Allow-Origin", "*")
                 response.headers.add("Access-Control-Allow-Headers", "Content-Type")
