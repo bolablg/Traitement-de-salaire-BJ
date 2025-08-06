@@ -37,7 +37,7 @@ benin-salaire-api/
 │   ├── simulateur.ipynb
 │   └── simulateur.py
 ├── web/                  # Interface HTML connectée à l’API
-│   └── index.html        # Interface html déployé sur LWS
+│   └── index.html        # Interface HTML déployée sur LWS
 └── README.md
 ```
 
