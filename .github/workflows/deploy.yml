@@ -2,17 +2,17 @@ name: Deploy to Google Cloud Functions
 
 on:
   push:
-    branches: [ main ]
+    branches: [ production ]
   pull_request:
-    branches: [ main ]
+    branches: [ production ]
 
 jobs:
   deploy:
     name: Deploy to Cloud Functions
     runs-on: ubuntu-latest
 
-    # Only deploy on pushes to main branch
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    # Only deploy on pushes to production branch
+    if: github.ref == 'refs/heads/production' && github.event_name == 'push'
 
     steps:
     - name: Checkout code
@@ -21,7 +21,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11'
+        python-version: '3.10'
 
     - name: Install dependencies
       run: |
@@ -45,26 +45,41 @@ jobs:
 
     - name: Create service account key file
       run: |
-        echo '${{ secrets.GCP_SA_KEY }}' > ./intelytix-sa.json
+        echo '${{ secrets.GCP_SA_KEY }}' > ${{ secrets.SA_KEY_PATH }}
+
+    - name: Create temporary .env file from secrets
+      run: |
+        cat > .env << EOF
+        ENVIRONMENT=production
+        SA_KEY_PATH=${{ secrets.SA_KEY_PATH }}
+        SHEET_NAME=${{ secrets.SHEET_NAME }}
+        MAX_GROSS_SALARY=${{ secrets.MAX_GROSS_SALARY }}
+        RATE_LIMIT=${{ secrets.RATE_LIMIT }}
+        SHEET_ID=${{ secrets.SHEET_ID }}
+        MAX_GROSS_SALARY=${{ secrets.MAX_GROSS_SALARY }}
+
+        # Add other environment variables from secrets as needed
+        # EXAMPLE: DATABASE_URL=${{ secrets.DATABASE_URL }}
+        EOF
 
     - name: Deploy to Cloud Functions
       run: |
         gcloud functions deploy benin-salaire-calculator \
-          --gen2 \
-          --runtime=python311 \
+          --runtime=python310 \
           --region=${{ secrets.GCP_REGION }} \
           --source=. \
           --entry-point=main \
           --trigger-http \
           --allow-unauthenticated \
-          --memory=256Mi \
+          --memory=256MB \
           --timeout=60s \
           --max-instances=10 \
           --set-env-vars="ENVIRONMENT=production"
 
-    - name: Clean up credentials
+    - name: Clean up credentials and temporary files
       run: |
-        rm -f ./intelytix-sa.json
+        rm -f ${{ secrets.SA_KEY_PATH }}
+        rm -f ./.env
 
   test:
     name: Run Tests
@@ -77,13 +92,17 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11'
+        python-version: '3.10'
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest pytest-cov
+
+    - name: Run tests
+      run: |
+        python -m pytest tests/ -v
 
     - name: Run linting
       run: |

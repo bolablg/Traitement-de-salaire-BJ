@@ -20,9 +20,9 @@ TAX_BRACKETS = [
 ]
 SOCIAL_CONTRIBUTION_RATE = 0.036
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-SHEET_ID = os.getenv("SHEET_ID", "1w6JQd9ldI92LwAIvi4gqO-0ts8gvpDKzHJ-pGpZfHc0")
-SHEET_NAME = os.getenv("SHEET_NAME", "Logs")
-CREDENTIALS_FILE = os.getenv("CREDENTIALS_FILE", "./intelytix-sa.json")
+SHEET_ID = os.getenv("SHEET_ID")
+SHEET_NAME = os.getenv("SHEET_NAME")
+CREDENTIALS_FILE = os.getenv("SA_KEY_PATH")
 RATE_LIMIT = int(os.getenv("RATE_LIMIT", "10"))
 
 # Salary limits configuration

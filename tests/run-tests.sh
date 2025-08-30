@@ -4,6 +4,9 @@
 
 echo "🧪 Running tests for Benin Salary Calculator API..."
 
+# Change to project root directory
+cd "$(dirname "$0")/.."
+
 # Activate virtual environment if it exists
 if [ -d "venv" ]; then
     source venv/bin/activate
@@ -23,7 +26,7 @@ bandit -r . -f json || true
 
 echo ""
 echo "🧪 Running tests..."
-pytest test_main.py -v --cov=main --cov-report=term-missing
+pytest tests/test_main.py -v --cov=main --cov-report=term-missing
 
 echo ""
 echo "✅ All tests completed!"
