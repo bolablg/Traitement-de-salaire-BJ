@@ -71,7 +71,7 @@ jobs:
           --memory=256Mi \
           --timeout=60s \
           --max-instances=10 \
-          --set-env-vars="ENVIRONMENT=production"
+          --set-env-vars="ENVIRONMENT=production,SA_KEY_PATH=${{ secrets.SA_KEY_PATH }},SHEET_NAME=${{ secrets.SHEET_NAME }},MAX_GROSS_SALARY=${{ secrets.MAX_GROSS_SALARY }},RATE_LIMIT=${{ secrets.RATE_LIMIT }},SHEET_ID=${{ secrets.SHEET_ID }}"
 
     - name: Clean up credentials and temporary files
       run: |
