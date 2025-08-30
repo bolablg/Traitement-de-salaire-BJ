@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, Flask
 from flask import make_response
 import gspread
 from google.oauth2.service_account import Credentials
@@ -8,6 +8,9 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Create Flask app for 2nd gen Cloud Functions
+app = Flask(__name__)
 
 # --- Configuration ---
 def format_french_number(number):
@@ -260,3 +263,14 @@ def main(request):
         response.headers.add("Access-Control-Allow-Headers", "Content-Type")
         response.headers.add("Access-Control-Allow-Methods", "POST")
         return response
+
+
+# For local development and 2nd gen Cloud Functions compatibility
+if __name__ == "__main__":
+    from flask import Flask
+    app = Flask(__name__)
+    app.add_url_rule('/', 'main', main, methods=['GET', 'POST'])
+    
+    # Use PORT environment variable for Cloud Functions
+    port = int(os.getenv('PORT', 8080))
+    app.run(host='0.0.0.0', port=port, debug=False)

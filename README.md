@@ -1,6 +1,8 @@
 # 🇧🇯 Benin Salary Calculator API
 
 [![Deployed on Google Cloud Functions](https://img.shields.io/badge/Google%20Cloud-Function-blue)](https://console.cloud.google.com/functions)
+[![Flask API](https://img.shields.io/badge/Flask-API-green)](https://flask.palletsprojects.com/)
+[![APP Status](https://img.shields.io/website?url=https%3A%2F%2Fapp.bolablg.com%2Fsalaire_benin&label=API&up_message=online&down_message=offline)](https://app.bolablg.com/salaire_benin)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 A Google Cloud Functions API for calculating salary conversions (gross to net, net to gross) according to **Benin's 2025 Finance Law**. This application helps employees and job seekers in Benin estimate their **net salary from gross** or determine the **required gross salary from desired net pay**.
