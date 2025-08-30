@@ -1,0 +1,10 @@
+# Base requirements
+-r requirements.txt
+
+# Development and testing
+pytest==7.4.3
+pytest-cov==4.1.0
+functions-framework==3.5.0
+flake8==6.1.0
+bandit==1.7.5
+black==23.11.0

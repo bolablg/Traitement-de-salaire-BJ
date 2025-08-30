@@ -1,0 +1,98 @@
+name: Deploy to Google Cloud Functions
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    name: Deploy to Cloud Functions
+    runs-on: ubuntu-latest
+
+    # Only deploy on pushes to main branch
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run tests (if any)
+      run: |
+        # Add test commands here when you have tests
+        echo "No tests configured yet"
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+    - name: Create service account key file
+      run: |
+        echo '${{ secrets.GCP_SA_KEY }}' > ./intelytix-sa.json
+
+    - name: Deploy to Cloud Functions
+      run: |
+        gcloud functions deploy benin-salaire-calculator \
+          --gen2 \
+          --runtime=python311 \
+          --region=${{ secrets.GCP_REGION }} \
+          --source=. \
+          --entry-point=main \
+          --trigger-http \
+          --allow-unauthenticated \
+          --memory=256Mi \
+          --timeout=60s \
+          --max-instances=10 \
+          --set-env-vars="ENVIRONMENT=production"
+
+    - name: Clean up credentials
+      run: |
+        rm -f ./intelytix-sa.json
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+
+    - name: Run linting
+      run: |
+        # Install flake8 for linting
+        pip install flake8
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=120 --statistics
+
+    - name: Security check
+      run: |
+        pip install bandit
+        bandit -r . -f json || true
