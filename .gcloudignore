@@ -1,0 +1,68 @@
+# Git files
+.git
+.gitignore
+
+# Python cache and build files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test files and directories
+tests/
+test_*.py
+*_test.py
+pytest_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Development files
+dev-requirements.txt
+.DS_Store
+*.log
+
+# Documentation
+README.md
+LICENSE
+
+# CI/CD
+.github/
+.gitmodules
+
+# Local development files and directories
+local/
+old/
+run-*.sh
+*.ipynb
+
+# Note: .env files are created temporarily during deployment and then deleted
+# The local .env is excluded via .gitignore

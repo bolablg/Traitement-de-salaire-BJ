@@ -49,29 +49,26 @@ jobs:
 
     - name: Create temporary .env file from secrets
       run: |
-        cat > .env << EOF
+        cat > .env << 'EOF'
         ENVIRONMENT=production
         SA_KEY_PATH=${{ secrets.SA_KEY_PATH }}
         SHEET_NAME=${{ secrets.SHEET_NAME }}
         MAX_GROSS_SALARY=${{ secrets.MAX_GROSS_SALARY }}
         RATE_LIMIT=${{ secrets.RATE_LIMIT }}
         SHEET_ID=${{ secrets.SHEET_ID }}
-        MAX_GROSS_SALARY=${{ secrets.MAX_GROSS_SALARY }}
-
-        # Add other environment variables from secrets as needed
-        # EXAMPLE: DATABASE_URL=${{ secrets.DATABASE_URL }}
         EOF
 
     - name: Deploy to Cloud Functions
       run: |
-        gcloud functions deploy benin-salaire-calculator \
+        gcloud functions deploy beninSalaireAPI2 \
+          --gen2 \
           --runtime=python310 \
           --region=${{ secrets.GCP_REGION }} \
           --source=. \
           --entry-point=main \
           --trigger-http \
           --allow-unauthenticated \
-          --memory=256MB \
+          --memory=256Mi \
           --timeout=60s \
           --max-instances=10 \
           --set-env-vars="ENVIRONMENT=production"

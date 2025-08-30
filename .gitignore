@@ -38,9 +38,6 @@ intelytix-sa.json
 *.log
 logs/
 
-# Cloud Functions
-.gcloudignore
-
 # Local development
 functions-framework.log
 

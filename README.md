@@ -178,17 +178,18 @@ The GitHub Action will automatically deploy to Cloud Functions.
 
 ### Manual Deployment
 
-**Note:** This project uses **1st generation Google Cloud Functions**.
+**Note:** This project uses **2nd generation Google Cloud Functions**.
 
 ```bash
-gcloud functions deploy benin-salaire-calculator \
+gcloud functions deploy beninSalaireAPI2 \
+  --gen2 \
   --runtime=python310 \
   --region=$GCP_REGION \
   --source=. \
   --entry-point=main \
   --trigger-http \
   --allow-unauthenticated \
-  --memory=256MB \
+  --memory=256Mi \
   --timeout=60s
 ```
 
