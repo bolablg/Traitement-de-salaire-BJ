@@ -105,6 +105,49 @@ def calculate_tax_details(gross_salary):
 
 
 def calculate_gross_from_net(desired_net):
+    social_rate = SOCIAL_CONTRIBUTION_RATE
+    prev_taxes = 0  # cumulative taxes from lower brackets
+
+    # --- Exact solver path ---
+    for bracket in TAX_BRACKETS:
+        b_min, b_max, rate = bracket["min"], bracket["max"], bracket["rate"]
+
+        # Gross range in this bracket
+        gross_start = b_min
+        gross_end = b_max if b_max != float("inf") else float("inf")
+
+        # Net at start
+        net_start = gross_start - gross_start * social_rate - prev_taxes
+
+        # Net at end
+        if b_max != float("inf"):
+            tax_in_bracket = (b_max - b_min) * rate
+            net_end = gross_end - gross_end * social_rate - prev_taxes - tax_in_bracket
+        else:
+            net_end = float("inf")
+
+        # Check if desired_net is inside this bracket’s net range
+        if net_start <= desired_net <= net_end or (net_end == float("inf") and desired_net >= net_start):
+            coeff = 1 - social_rate - rate
+            constant = b_min * rate - prev_taxes
+            gross = (desired_net - constant) / coeff
+
+            tax_details = calculate_tax_details(gross)
+            return {
+                "salaire_net_desire": round(desired_net),
+                "salaire_brut_requis": round(gross),
+                "details_cotisations": tax_details["details_cotisations"],
+                "details_impot": tax_details["details_impot"],
+                "total_cotisations": tax_details["total_cotisations"],
+                "total_impot": tax_details["total_impot"],
+                "total_prelevements": tax_details["total_prelevements"]
+            }
+
+        # Update taxes for next bracket
+        if b_max != float("inf"):
+            prev_taxes += (b_max - b_min) * rate
+
+    # --- Fallback to iterative estimation ---
     def estimate_gross(net):
         gross = net * (1 + SOCIAL_CONTRIBUTION_RATE)
         tolerance = 1
@@ -122,7 +165,7 @@ def calculate_gross_from_net(desired_net):
 
     estimated_gross = estimate_gross(desired_net)
     tax_details = calculate_tax_details(estimated_gross)
-    
+
     return {
         "salaire_net_desire": round(desired_net),
         "salaire_brut_requis": round(estimated_gross),
